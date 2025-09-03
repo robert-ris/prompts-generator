@@ -1,0 +1,31 @@
+# Task ID: 6
+# Title: Refactor Callback Page (callback/page.tsx)
+# Status: pending
+# Dependencies: 5
+# Priority: medium
+# Description: Simplify the OAuth callback page to handle authentication completion reliably
+# Details:
+Rewrite the callback page to simplify OAuth callback handling, improve error handling, and streamline redirect logic.
+
+# Test Strategy:
+Test OAuth callback flow and verify successful authentication and redirect
+
+# Subtasks:
+## 1. Simplify callback handling [pending]
+### Dependencies: None
+### Description: Simplify the OAuth callback handling logic
+### Details:
+Simplify the callback processing to use basic Supabase session handling without complex profile creation.
+
+## 2. Improve error handling [pending]
+### Dependencies: None
+### Description: Improve error handling to show clear error messages
+### Details:
+Simplify error handling to show clear, actionable error messages without complex error mapping.
+
+## 3. Streamline redirect logic [pending]
+### Dependencies: None
+### Description: Simplify the redirect logic after successful authentication
+### Details:
+Simplify redirect logic to handle both default dashboard redirect and custom redirect parameters.
+

@@ -1,0 +1,43 @@
+# Task ID: 5
+# Title: Refactor Login Page (login/page.tsx)
+# Status: pending
+# Dependencies: 4
+# Priority: high
+# Description: Simplify the login page to improve user experience and remove complex OAuth handling
+# Details:
+Rewrite the login page to remove popup blocker detection, simplify form handling, improve error display, and create a smoother user experience.
+
+# Test Strategy:
+Test both email/password and OAuth login flows and verify error handling works correctly
+
+# Subtasks:
+## 1. Remove popup blocker detection [pending]
+### Dependencies: None
+### Description: Remove the complex popup blocker detection and related UI
+### Details:
+Remove detectPopupBlocker function, popupBlocked state, and related UI elements. Simplify OAuth flow.
+
+## 2. Simplify form handling [pending]
+### Dependencies: None
+### Description: Simplify the form handling and state management
+### Details:
+Simplify form state management, remove complex loading state handling, and streamline form submission.
+
+## 3. Improve error display [pending]
+### Dependencies: None
+### Description: Improve error display to show clear, actionable error messages
+### Details:
+Simplify error display to show clear error messages without complex error mapping or multiple error states.
+
+## 4. Simplify OAuth flow [pending]
+### Dependencies: None
+### Description: Simplify the OAuth flow to work reliably without popup detection
+### Details:
+Simplify OAuth button and handling to work directly with Supabase OAuth without complex popup handling.
+
+## 5. Improve loading states [pending]
+### Dependencies: None
+### Description: Improve loading states to provide clear feedback during authentication
+### Details:
+Simplify loading states to provide clear feedback without complex state management.
+

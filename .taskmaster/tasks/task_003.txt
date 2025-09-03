@@ -1,0 +1,43 @@
+# Task ID: 3
+# Title: Refactor Auth Utilities (auth-utils.ts)
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Completely refactor the auth utilities to remove complexity and use Supabase auth directly
+# Details:
+Rewrite auth-utils.ts to use Supabase auth directly without complex timeout handling, extensive error mapping, or unnecessary abstraction layers. Create simple, direct functions for each authentication method.
+
+# Test Strategy:
+Test each auth function individually and verify they work correctly with Supabase
+
+# Subtasks:
+## 1. Remove complex timeout handling [pending]
+### Dependencies: None
+### Description: Remove the complex timeout promise and execution wrapper functions
+### Details:
+Remove executeWithTimeout, createTimeoutPromise, and TIMEOUTS configuration. Use Supabase's built-in timeout handling.
+
+## 2. Simplify error handling [pending]
+### Dependencies: None
+### Description: Remove complex error message mapping and use simple, direct error handling
+### Details:
+Remove ERROR_MESSAGES mapping and mapErrorMessage function. Use Supabase error messages directly or provide simple, clear error messages.
+
+## 3. Simplify auth functions [pending]
+### Dependencies: None
+### Description: Rewrite all auth functions to use Supabase directly without wrappers
+### Details:
+Simplify signInWithEmail, signUpWithEmail, signInWithGoogle, signOut, resetPassword, and updatePassword functions to use Supabase auth directly.
+
+## 4. Remove unnecessary utility functions [pending]
+### Dependencies: None
+### Description: Remove functions that add unnecessary complexity
+### Details:
+Remove detectPopupBlocker, getOAuthSignInOptions, and other utility functions that add complexity without clear value.
+
+## 5. Simplify OAuth callback handling [pending]
+### Dependencies: None
+### Description: Simplify the OAuth callback handling function
+### Details:
+Simplify handleOAuthCallback to use basic Supabase session handling without complex profile creation logic.
+

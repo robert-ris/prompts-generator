@@ -1,0 +1,148 @@
+# AI Prompt Builder - Product Requirements Document
+
+## Product Overview
+AI Prompt Builder is a comprehensive web application that enables users to create, manage, and improve AI prompts through an intuitive interface. The platform features dynamic prompt building with live preview, AI-powered prompt improvement, subscription management, personal library management, and community sharing capabilities.
+
+## Target Users
+- Content creators who need AI assistance
+- Developers working with LLM APIs
+- Educators creating AI-powered learning materials
+- Business professionals using AI for various tasks
+- AI enthusiasts and prompt engineers
+
+## Core Features
+
+### 1. User Authentication & Dashboard
+- Secure email/password authentication with optional Google OAuth
+- Protected routes with automatic redirects
+- Persistent sessions with refresh token handling
+- User profile management with avatar upload
+- Personalized dashboard with usage statistics and quick actions
+- Responsive design with mobile-first approach
+
+### 2. Dynamic Prompt Builder with Live Preview
+- Slot-filling interface with Role, Topic, Tone, Output Type inputs
+- Template variable syntax: {{role}}, {{topic}}, {{tone}}
+- Real-time live preview with <250ms update latency
+- Preset dropdowns with custom input options
+- Copy-to-clipboard functionality with visual feedback
+- Save prompt to library with metadata
+- Input validation and character limits
+
+### 3. AI-Powered Auto-Improve Prompts
+- "Tighten" and "Expand" improvement modes
+- Quota enforcement: Free (10/month), Pro (200/month)
+- Token usage logging for cost tracking
+- Retry logic with exponential backoff
+- Input sanitization and content filtering
+- Response validation and safety checks
+- Real-time usage meter in UI
+
+### 4. Subscription Management (Free vs Pro)
+- Two tiers: Free (limited) and Pro (premium features)
+- Stripe-hosted checkout for PCI compliance
+- Webhook handling for subscription lifecycle events
+- Prorated billing for mid-cycle changes
+- Grace period handling for failed payments
+- Feature gating based on subscription status
+- Billing portal integration for self-service
+
+### 5. My Library (Personal Prompt Management)
+- Create, read, update, delete prompts with optimistic UI
+- Search and filter by category, date, content
+- Bulk operations (select multiple, delete, export)
+- Duplicate prompts for iteration
+- Organize with tags and categories
+- Sort by date, alphabetical, usage frequency
+- Export individual or bulk prompts
+- Soft delete with recovery option
+
+### 6. Community Prompt Sharing
+- Pro users can publish private prompts to community
+- All users can browse, search, and save community prompts
+- Popularity scoring based on views, saves, and ratings
+- Content moderation and reporting system
+- Author attribution and profile pages
+- Categories and trending sections
+- Search with relevance ranking
+
+## Technical Requirements
+
+### Frontend
+- Next.js 14+ with App Router
+- TypeScript for type safety
+- Tailwind CSS for styling
+- shadcn/ui components
+- Responsive design for all devices
+- Progressive Web App capabilities
+
+### Backend
+- Supabase for database and authentication
+- PostgreSQL with Row Level Security
+- Real-time subscriptions
+- Server Actions for server-side operations
+- API routes for external integrations
+
+### External Integrations
+- Stripe for payment processing
+- OpenAI/Anthropic for AI improvements
+- Google OAuth for authentication
+- Content moderation service
+
+### Security
+- Row Level Security (RLS) for all database tables
+- CSRF protection
+- Input sanitization and validation
+- Rate limiting per user and endpoint
+- Content Security Policy headers
+- Secure session management
+
+### Performance
+- Database indexing strategy
+- Redis caching for frequently accessed data
+- CDN for static assets
+- Lazy loading and code splitting
+- Optimistic UI updates
+- Debounced search and auto-save
+
+## Success Metrics
+- User engagement: Daily active users, session duration
+- Feature adoption: Prompt creation rate, AI improvement usage
+- Conversion: Free to Pro subscription rate
+- Community growth: Published prompts, community engagement
+- Performance: Page load times, API response times
+- User satisfaction: NPS score, feature usage analytics
+
+## Launch Phases
+
+### Phase 1: Core MVP (Weeks 1-4)
+- User authentication and basic dashboard
+- Prompt builder with live preview
+- Basic library management
+- Free tier limitations
+
+### Phase 2: AI Integration (Weeks 5-8)
+- AI-powered prompt improvement
+- Quota management system
+- Usage tracking and analytics
+- Pro subscription tier
+
+### Phase 3: Community Features (Weeks 9-12)
+- Community prompt sharing
+- Content moderation system
+- Search and discovery features
+- Author profiles and ratings
+
+### Phase 4: Advanced Features (Weeks 13-16)
+- Bulk operations and advanced filtering
+- Export functionality
+- Mobile app optimization
+- Performance optimizations
+
+## Risk Mitigation
+- Content moderation to prevent inappropriate prompts
+- Rate limiting to prevent abuse
+- Backup and recovery procedures
+- Monitoring and alerting systems
+- Scalability planning for high traffic
+- Compliance with data protection regulations

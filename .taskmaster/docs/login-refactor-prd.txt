@@ -1,0 +1,103 @@
+# Login Flow Refactoring - Product Requirements Document
+
+## Overview
+Refactor the entire authentication system to create a simple, clear, and reliable login implementation. The current implementation is overly complex with multiple layers of abstraction, timeout handling, and error mapping that makes debugging difficult and maintenance challenging.
+
+## Current Issues
+1. **Over-engineered auth utilities**: Complex timeout handling, extensive error mapping, and redundant abstraction layers
+2. **Inconsistent error handling**: Multiple error handling patterns across different components
+3. **Complex session management**: Overly complex session refresh logic and state management
+4. **Poor user experience**: Confusing popup blocker detection and OAuth flow
+5. **Hard to debug**: Too many layers of abstraction make troubleshooting difficult
+6. **Inconsistent patterns**: Different approaches for email vs OAuth authentication
+
+## Goals
+1. **Simplify the implementation**: Remove unnecessary complexity and abstraction layers
+2. **Improve reliability**: Create a robust, predictable authentication flow
+3. **Enhance user experience**: Clear error messages and smooth authentication process
+4. **Easier maintenance**: Clean, readable code that's easy to understand and modify
+5. **Better debugging**: Clear error handling and logging for troubleshooting
+
+## Technical Requirements
+
+### Authentication Methods
+- Email/password authentication
+- Google OAuth authentication
+- Password reset functionality
+- Account creation (signup)
+
+### Core Components to Refactor
+1. **Auth Utilities** (`src/lib/auth/auth-utils.ts`)
+   - Simplify to basic Supabase auth calls
+   - Remove complex timeout handling
+   - Streamline error handling
+   - Remove unnecessary abstraction layers
+
+2. **Auth Provider** (`src/lib/auth/AuthProvider.tsx`)
+   - Simplify session management
+   - Remove complex session refresh logic
+   - Streamline auth state management
+   - Improve error handling
+
+3. **Login Page** (`src/app/auth/login/page.tsx`)
+   - Simplify form handling
+   - Improve error display
+   - Streamline OAuth flow
+   - Remove popup blocker complexity
+
+4. **Callback Page** (`src/app/auth/callback/page.tsx`)
+   - Simplify OAuth callback handling
+   - Improve error handling
+   - Streamline redirect logic
+
+5. **Middleware** (`src/middleware.ts`)
+   - Simplify route protection logic
+   - Streamline session validation
+   - Remove redundant checks
+
+### Implementation Principles
+1. **Keep it simple**: Use Supabase auth directly without unnecessary wrappers
+2. **Clear error messages**: Provide user-friendly error messages without complex mapping
+3. **Consistent patterns**: Use the same approach for all authentication methods
+4. **Minimal abstraction**: Only add abstraction where it provides clear value
+5. **Easy debugging**: Clear logging and error handling for troubleshooting
+
+### User Experience Requirements
+1. **Clear feedback**: Users should always know what's happening during authentication
+2. **Helpful error messages**: Errors should be actionable and user-friendly
+3. **Smooth flow**: Authentication should feel seamless and responsive
+4. **Accessible**: Support for screen readers and keyboard navigation
+5. **Mobile-friendly**: Work well on all device sizes
+
+### Security Requirements
+1. **Secure session handling**: Proper session management and validation
+2. **CSRF protection**: Protect against cross-site request forgery
+3. **Rate limiting**: Prevent brute force attacks
+4. **Secure redirects**: Validate redirect URLs to prevent open redirects
+5. **Input validation**: Proper validation of all user inputs
+
+## Success Criteria
+1. **Reduced complexity**: Code is significantly simpler and easier to understand
+2. **Improved reliability**: Authentication works consistently across all scenarios
+3. **Better user experience**: Users can authenticate without confusion or frustration
+4. **Easier maintenance**: New developers can understand and modify the code easily
+5. **Faster debugging**: Issues can be identified and resolved quickly
+
+## Implementation Phases
+1. **Phase 1**: Simplify auth utilities and remove unnecessary complexity
+2. **Phase 2**: Refactor auth provider for cleaner state management
+3. **Phase 3**: Streamline login page and improve user experience
+4. **Phase 4**: Simplify callback handling and middleware
+5. **Phase 5**: Testing and validation across all authentication flows
+
+## Technical Stack
+- Next.js 14 with App Router
+- Supabase for authentication
+- TypeScript for type safety
+- Tailwind CSS for styling
+- React Hook Form for form handling (optional, for better UX)
+
+## Dependencies
+- Existing Supabase configuration
+- Current UI components (Button, Input, Card, etc.)
+- Existing routing structure
