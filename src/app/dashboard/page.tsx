@@ -22,6 +22,7 @@ import {
   Share2,
   FolderOpen,
 } from 'lucide-react';
+import {debugAuthState} from '@/lib/auth/auth-utils';
 
 export default function DashboardPage() {
   const {user, signOut} = useAuth();

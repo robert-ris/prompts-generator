@@ -1,5 +1,5 @@
 import { supabase } from '../supabase/client';
-import type { User } from '@supabase/supabase-js';
+import type { User, Session } from '@supabase/supabase-js';
 import { getErrorMessage } from './error-handling';
 
 // Simple error type
@@ -292,4 +292,87 @@ export async function handleOAuthCallback(): Promise<AuthResult> {
       },
     };
   }
+}
+
+/**
+ * Debug authentication state
+ */
+export async function debugAuthState(): Promise<{
+  hasSession: boolean;
+  hasUser: boolean;
+  sessionData: Session | null;
+  userData: User | null;
+  localStorage: string[];
+  sessionStorage: string[];
+  cookies: string[];
+}> {
+  const result = {
+    hasSession: false,
+    hasUser: false,
+    sessionData: null as Session | null,
+    userData: null as User | null,
+    localStorage: [] as string[],
+    sessionStorage: [] as string[],
+    cookies: [] as string[],
+  };
+
+  try {
+    // Check Supabase session
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    result.hasSession = !!session;
+    result.sessionData = session;
+
+    // Check Supabase user
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    result.hasUser = !!user;
+    result.userData = user;
+
+    // Check browser storage
+    if (typeof window !== 'undefined') {
+      // Check localStorage
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (
+          key &&
+          (key.includes('auth') ||
+            key.includes('supabase') ||
+            key.includes('session'))
+        ) {
+          result.localStorage.push(key);
+        }
+      }
+
+      // Check sessionStorage
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        if (
+          key &&
+          (key.includes('auth') ||
+            key.includes('supabase') ||
+            key.includes('session'))
+        ) {
+          result.sessionStorage.push(key);
+        }
+      }
+
+      // Check cookies
+      result.cookies = document.cookie
+        .split(';')
+        .map(cookie => cookie.trim())
+        .filter(
+          cookie =>
+            cookie.startsWith('sb-') ||
+            cookie.includes('supabase') ||
+            cookie.includes('auth')
+        );
+    }
+  } catch (error) {
+    console.error('Error debugging auth state:', error);
+  }
+
+  return result;
 }

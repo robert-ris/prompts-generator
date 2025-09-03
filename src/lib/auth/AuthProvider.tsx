@@ -82,13 +82,61 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
 
   const signOut = async () => {
     try {
-      await signOutUtil();
-    } finally {
-      try {
-        await fetch('/auth/sign-out', {method: 'POST', cache: 'no-store'});
-      } catch { }
+      console.log('Starting sign out process...');
+
+      // Clear client state immediately to prevent race conditions
       setSession(null);
       setUser(null);
+
+      // Call the enhanced sign-out utility
+      const result = await signOutUtil();
+
+      if (!result.success) {
+        console.error('Sign out utility failed:', result.error);
+      }
+
+      // Call the server-side sign-out endpoint to clear cookies
+      try {
+        const response = await fetch('/auth/sign-out', {
+          method: 'POST',
+          cache: 'no-store',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          console.warn('Server-side sign out returned non-OK status:', response.status);
+        }
+      } catch (error) {
+        console.warn('Error calling server-side sign out:', error);
+      }
+
+      // Force a hard redirect to ensure fresh state
+      if (typeof window !== 'undefined') {
+        // Clear any remaining auth-related cookies
+        document.cookie.split(';').forEach(cookie => {
+          const [name] = cookie.split('=');
+          if (name.trim().startsWith('sb-') ||
+            name.trim().includes('supabase') ||
+            name.trim().includes('auth')) {
+            document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+          }
+        });
+
+        // Force redirect to home page
+        window.location.href = '/';
+      }
+
+      console.log('Sign out process completed');
+    } catch (error) {
+      console.error('Error during sign out process:', error);
+      // Even if there's an error, clear the state and redirect
+      setSession(null);
+      setUser(null);
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     }
   };
 
