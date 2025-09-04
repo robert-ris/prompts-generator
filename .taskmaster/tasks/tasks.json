@@ -593,11 +593,230 @@
             "details": "Test security aspects including CSRF protection, input validation, and secure session handling."
           }
         ]
+      },
+      {
+        "id": 16,
+        "title": "Implement Dynamic Prompt Builder",
+        "description": "Build the core prompt builder interface with slot-filling functionality and real-time preview",
+        "details": "Create a comprehensive prompt builder system with the following components:\n\n1. PromptBuilder component with slot-filling interface\n2. LivePreview component with real-time updates (<250ms latency)\n3. SlotFillers component for Role, Topic, Tone inputs\n4. Template variable processing logic ({{role}}, {{topic}}, {{tone}})\n5. Copy-to-clipboard functionality\n6. Save to library integration\n\nTechnical Requirements:\n- Debounced preview updates\n- Template variable syntax support\n- Preset dropdowns with custom input options\n- Input validation and character limits\n- Mobile-responsive design\n- Optimistic UI updates\n\nDatabase Integration:\n- Save prompt templates to database\n- Load user's saved templates\n- Update template metadata\n- Handle template versioning",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 17,
+        "title": "Implement AI-Powered Auto-Improve Prompts",
+        "description": "Implement AI-powered prompt improvement with quota management and LLM integration",
+        "details": "Create an AI improvement system with the following components:\n\n1. AIImprove component with \"Tighten\" and \"Expand\" modes\n2. QuotaMeter component for usage tracking\n3. UpgradeModal component for quota exceeded scenarios\n4. LLM provider wrapper (OpenAI/Anthropic)\n5. API route for secure LLM calls\n\nTechnical Requirements:\n- Quota enforcement: Free (10/month), Pro (200/month)\n- Token usage logging and cost tracking\n- Retry logic with exponential backoff\n- Input sanitization and content filtering\n- Response validation and safety checks\n- Real-time usage meter in UI\n\nAPI Integration:\n- /api/ai-improve endpoint\n- Quota checking middleware\n- LLM provider abstraction\n- Usage logging to database",
+        "testStrategy": "",
+        "status": "in-progress",
+        "dependencies": [
+          "16"
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create AI Improvement API Endpoint",
+            "description": "Create the AI improvement API endpoint with quota management",
+            "details": "Implement the core AI improvement API endpoint:\n\n1. Create `/api/ai/improve` route handler\n2. Implement quota checking middleware\n3. Add LLM provider abstraction (OpenAI/Anthropic)\n4. Implement prompt improvement logic for \"tighten\" and \"expand\" modes\n5. Add token usage tracking and cost calculation\n6. Implement retry logic with exponential backoff\n7. Add input sanitization and content filtering\n8. Implement response validation and safety checks\n9. Add error handling for API failures\n10. Log usage to database for quota tracking\n11. Return improved prompt with usage statistics\n12. Test the API endpoint with various inputs",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 17
+          },
+          {
+            "id": 2,
+            "title": "Enhance AIImprove Component",
+            "description": "Enhance the existing AIImprove component with full functionality",
+            "details": "Improve the existing AIImprove component:\n\n1. Connect the component to the new API endpoint\n2. Add proper error handling and user feedback\n3. Implement loading states during AI processing\n4. Add success/error notifications\n5. Improve the UI/UX for better user experience\n6. Add character count and improvement preview\n7. Implement proper form validation\n8. Add keyboard shortcuts for common actions\n9. Improve accessibility features\n10. Add tooltips and help text\n11. Test the component with various scenarios\n12. Ensure mobile responsiveness",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 17
+          },
+          {
+            "id": 3,
+            "title": "Create QuotaMeter Component",
+            "description": "Create QuotaMeter component for real-time usage tracking",
+            "details": "Build a comprehensive quota tracking component:\n\n1. Create QuotaMeter component with visual progress bar\n2. Display current usage vs limit for AI improvements\n3. Show usage reset date and time remaining\n4. Add color-coded status indicators (green/yellow/red)\n5. Implement real-time updates when quota changes\n6. Add tooltips with detailed usage information\n7. Show upgrade prompt when approaching limits\n8. Add usage history and trends\n9. Implement responsive design for mobile\n10. Add accessibility features (ARIA labels)\n11. Test with different quota scenarios\n12. Integrate with the quota system",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 17
+          },
+          {
+            "id": 4,
+            "title": "Create UpgradeModal Component",
+            "description": "Create UpgradeModal component for quota exceeded scenarios",
+            "details": "Build an upgrade modal for when users exceed their quota:\n\n1. Create UpgradeModal component with plan comparison\n2. Display current plan vs Pro plan benefits\n3. Show feature comparison table\n4. Add Stripe Checkout integration\n5. Implement plan upgrade flow\n6. Add success/error handling for payments\n7. Show upgrade benefits and value proposition\n8. Add testimonials or social proof\n9. Implement responsive design\n10. Add accessibility features\n11. Test the upgrade flow end-to-end\n12. Add analytics tracking for conversion\n13. Implement proper error handling\n14. Add loading states during payment processing",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 17
+          },
+          {
+            "id": 5,
+            "title": "Implement LLM Provider Abstraction",
+            "description": "Implement LLM provider abstraction and configuration",
+            "details": "Create a flexible LLM provider system:\n\n1. Create LLM provider abstraction layer\n2. Implement OpenAI provider with GPT-4/GPT-3.5\n3. Implement Anthropic provider with Claude\n4. Add provider configuration and fallback logic\n5. Implement model selection based on task complexity\n6. Add cost optimization strategies\n7. Implement provider health checking\n8. Add provider-specific error handling\n9. Create provider performance monitoring\n10. Implement A/B testing for different providers\n11. Add provider rotation for load balancing\n12. Test with multiple providers\n13. Add provider-specific prompt formatting\n14. Implement provider-specific response parsing",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 17
+          },
+          {
+            "id": 6,
+            "title": "Add Comprehensive Testing",
+            "description": "Add comprehensive testing and integration",
+            "details": "Implement comprehensive testing for the AI improvement system:\n\n1. Create unit tests for API endpoint\n2. Test quota management and enforcement\n3. Test LLM provider integration\n4. Test error handling and edge cases\n5. Test rate limiting and abuse prevention\n6. Create integration tests for full flow\n7. Test upgrade modal and payment flow\n8. Test quota meter accuracy\n9. Test AIImprove component functionality\n10. Test with different user scenarios\n11. Performance testing for API responses\n12. Security testing for input validation\n13. Test quota reset and renewal logic\n14. End-to-end testing of complete user flow\n15. Test mobile responsiveness\n16. Test accessibility compliance",
+            "status": "in-progress",
+            "dependencies": [],
+            "parentTaskId": 17
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Implement Subscription Management",
+        "description": "Implement subscription management with Stripe integration and feature gating",
+        "details": "Create a subscription management system with the following components:\n\n1. UpgradeModal component with plan comparison\n2. BillingPortal component for subscription management\n3. Feature gating middleware\n4. Stripe webhook handler\n5. Subscription status indicators\n\nTechnical Requirements:\n- Stripe Checkout integration\n- Webhook handling for subscription events\n- Feature gating based on subscription status\n- Prorated billing for mid-cycle changes\n- Grace period handling for failed payments\n\nSubscription Tiers:\n- Free tier: 20 prompts, 10 AI calls/month\n- Pro tier: Unlimited prompts, 200 AI calls/month\n- Feature entitlements management\n- Upgrade/downgrade flows",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          "17"
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 19,
+        "title": "Implement Library Management System",
+        "description": "Implement personal prompt library with search, filtering, and CRUD operations",
+        "details": "Create a comprehensive library management system with the following components:\n\n1. LibraryGrid component with search and filtering\n2. PromptCard component with hover actions\n3. PromptEditor component for editing saved prompts\n4. SearchBar component with debounced search\n5. FilterPanel component for category/tag filtering\n\nTechnical Requirements:\n- CRUD operations for prompts\n- Full-text search capabilities\n- Bulk operations (select, delete, export)\n- Soft delete with recovery option\n- Real-time sync across devices\n- Pagination and infinite scroll\n\nAdvanced Features:\n- Duplicate prompts for iteration\n- Organize with tags and categories\n- Sort by date, alphabetical, usage frequency\n- Export individual or bulk prompts\n- Usage tracking and analytics",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          "16"
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 20,
+        "title": "Implement Community Prompt Sharing",
+        "description": "Implement community prompt sharing with moderation and rating system",
+        "details": "Create a community sharing system with the following components:\n\n1. CommunityFeed component with infinite scroll\n2. PublishModal component for sharing prompts\n3. PromptDetail component for community prompts\n4. Author profile pages\n5. Rating and review system\n\nTechnical Requirements:\n- Content moderation system\n- Popularity scoring algorithm\n- Search with relevance ranking\n- Rate limiting to prevent spam\n- Community guidelines enforcement\n\nCommunity Features:\n- Pro users can publish prompts\n- All users can browse and save\n- Categories and trending sections\n- Author attribution and profiles\n- Report inappropriate content",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [
+          "19"
+        ],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 21,
+        "title": "Setup Production Deployment & DevOps",
+        "description": "Set up production deployment with monitoring and CI/CD pipeline",
+        "details": "Implement production deployment infrastructure with the following requirements:\n\n1. Vercel deployment configuration\n2. Environment variable management\n3. CI/CD pipeline setup\n4. Error tracking (Sentry)\n5. Performance monitoring\n6. Database backup strategy\n\nTechnical Requirements:\n- Automated deployment pipeline\n- Environment-specific configurations\n- Error monitoring and alerting\n- Performance monitoring (Web Vitals)\n- Database backup and recovery\n- Security scanning and compliance",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 22,
+        "title": "Implement Analytics & Monitoring",
+        "description": "Implement comprehensive analytics and monitoring system",
+        "details": "Create an analytics and monitoring system with the following requirements:\n\n1. Usage analytics implementation\n2. Performance monitoring (Web Vitals)\n3. Database query performance monitoring\n4. LLM API usage and cost tracking\n5. User behavior analytics\n\nTechnical Requirements:\n- User engagement tracking\n- Performance metrics collection\n- Database performance monitoring\n- API usage analytics\n- Cost tracking and optimization\n- A/B testing framework",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 23,
+        "title": "Implement Security Enhancements",
+        "description": "Implement comprehensive security measures and audit",
+        "details": "Implement security enhancements with the following requirements:\n\n1. Rate limiting implementation\n2. Content Security Policy headers\n3. API key rotation strategy\n4. Input sanitization improvements\n5. Security audit and testing\n\nTechnical Requirements:\n- API rate limiting per user/IP\n- CSP headers for XSS protection\n- Secure API key management\n- Input validation and sanitization\n- Security vulnerability scanning\n- Penetration testing",
+        "testStrategy": "",
+        "status": "in-progress",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement API Rate Limiting",
+            "description": "Add rate limiting to all API endpoints to prevent abuse and DDoS attacks",
+            "details": "Implement rate limiting middleware for all API routes:\n\n1. Create rate limiting middleware using a library like express-rate-limit or similar\n2. Configure different limits for different endpoints:\n   - Authentication endpoints: 5 requests per minute per IP\n   - Prompt creation: 10 requests per minute per user\n   - AI improvement: 20 requests per minute per user\n   - General API: 100 requests per minute per IP\n3. Add rate limiting headers to responses\n4. Implement proper error responses for rate limit exceeded\n5. Add rate limiting to Next.js API routes\n6. Test rate limiting functionality",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 23
+          },
+          {
+            "id": 2,
+            "title": "Implement Content Security Policy Headers",
+            "description": "Implement Content Security Policy headers to prevent XSS attacks",
+            "details": "Add comprehensive CSP headers to the application:\n\n1. Configure CSP headers in Next.js configuration\n2. Set up strict CSP policy with:\n   - default-src 'self'\n   - script-src 'self' 'unsafe-inline' (for development)\n   - style-src 'self' 'unsafe-inline' (for Tailwind)\n   - img-src 'self' data: https:\n   - font-src 'self' https:\n   - connect-src 'self' https://api.supabase.co https://api.openai.com\n3. Add nonce-based CSP for inline scripts\n4. Configure different policies for development and production\n5. Test CSP headers with browser dev tools\n6. Fix any CSP violations in the application",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 23
+          },
+          {
+            "id": 3,
+            "title": "Implement Secure API Key Management",
+            "description": "Implement secure API key management and rotation strategy",
+            "details": "Create a secure API key management system:\n\n1. Move all API keys to environment variables\n2. Implement API key rotation mechanism\n3. Add API key validation and verification\n4. Create secure storage for API keys (not in code)\n5. Implement API key usage monitoring\n6. Add automatic key rotation alerts\n7. Create backup API keys for redundancy\n8. Implement key revocation mechanism\n9. Add API key access logging\n10. Test API key security measures",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 23
+          },
+          {
+            "id": 4,
+            "title": "Implement Input Sanitization and Validation",
+            "description": "Implement comprehensive input sanitization and validation",
+            "details": "Add input sanitization and validation throughout the application:\n\n1. Create input sanitization utilities\n2. Implement XSS prevention for user-generated content\n3. Add SQL injection prevention measures\n4. Validate all form inputs with proper schemas\n5. Sanitize prompt templates before processing\n6. Add input length limits and character restrictions\n7. Implement content filtering for inappropriate content\n8. Add CSRF protection tokens\n9. Validate file uploads (if any)\n10. Test input validation with malicious inputs\n11. Add input validation error messages\n12. Implement server-side validation for all endpoints",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 23
+          },
+          {
+            "id": 5,
+            "title": "Perform Security Audit and Vulnerability Scanning",
+            "description": "Perform security audit and vulnerability scanning",
+            "details": "Conduct comprehensive security audit and testing:\n\n1. Run automated security vulnerability scans\n2. Perform manual security code review\n3. Test for common vulnerabilities (OWASP Top 10)\n4. Conduct penetration testing on API endpoints\n5. Test authentication and authorization flows\n6. Verify secure session management\n7. Test for information disclosure vulnerabilities\n8. Check for proper error handling (no sensitive data exposure)\n9. Test for proper logging and monitoring\n10. Verify secure communication (HTTPS)\n11. Test for proper access controls\n12. Create security testing documentation\n13. Fix any identified vulnerabilities\n14. Retest after fixes",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 23
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "title": "Implement Comprehensive Testing Suite",
+        "description": "Implement comprehensive testing suite for all features",
+        "details": "Create a comprehensive testing strategy with the following requirements:\n\nUnit Testing:\n- Component testing with Jest/React Testing Library\n- Utility function testing\n- API route testing\n- Database operation testing\n- Authentication flow testing\n\nIntegration Testing:\n- End-to-end testing with Playwright\n- API integration testing\n- Database integration testing\n- Third-party service testing (Stripe, LLM APIs)\n\nTechnical Requirements:\n- 90%+ test coverage\n- Automated test runs\n- Performance testing\n- Security testing\n- Cross-browser testing",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 25,
+        "title": "Create User Documentation & Help System",
+        "description": "Create comprehensive user documentation and help system",
+        "details": "Create comprehensive user documentation with the following requirements:\n\n1. User guide and tutorials\n2. Feature documentation\n3. FAQ and troubleshooting\n4. Video tutorials\n5. Help center implementation\n\nTechnical Requirements:\n- Interactive tutorials\n- Step-by-step guides\n- Video content creation\n- Searchable help system\n- Multi-language support\n- Accessibility compliance",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "low",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-09-03T07:07:52.522Z",
-      "updated": "2025-09-03T07:50:22.544Z",
+      "updated": "2025-09-04T11:26:41.526Z",
       "description": "Tasks for master context"
     }
   }

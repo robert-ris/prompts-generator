@@ -19,6 +19,9 @@ export const config = {
   openaiApiKey: process.env.OPENAI_API_KEY!,
   anthropicApiKey: process.env.ANTHROPIC_API_KEY!,
 
+  // Development flags
+  skipAIRequest: process.env.SKIP_AI_REQUEST === 'true',
+
   // Feature flags
   features: {
     aiImprovement: true,
@@ -53,8 +56,12 @@ export function validateConfig() {
   const requiredVars = [
     'SUPABASE_SERVICE_ROLE_KEY',
     'STRIPE_SECRET_KEY',
-    'OPENAI_API_KEY',
   ];
+
+  // Only require AI API keys if not in mock mode
+  if (!config.skipAIRequest) {
+    requiredVars.push('OPENAI_API_KEY');
+  }
 
   const missing = requiredVars.filter(varName => !process.env[varName]);
 

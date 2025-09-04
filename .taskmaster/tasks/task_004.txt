@@ -1,6 +1,6 @@
 # Task ID: 4
 # Title: Refactor Auth Provider (AuthProvider.tsx)
-# Status: pending
+# Status: done
 # Dependencies: 3
 # Priority: high
 # Description: Simplify the auth provider to remove complex session management and state handling
@@ -11,25 +11,25 @@ Rewrite AuthProvider.tsx to remove complex session refresh logic, auto-refresh t
 Test auth state changes and verify session management works correctly
 
 # Subtasks:
-## 1. Remove complex session refresh logic [pending]
+## 1. Remove complex session refresh logic [done]
 ### Dependencies: None
 ### Description: Remove the complex session refresh and auto-refresh functionality
 ### Details:
 Remove refreshSession function, auto-refresh timers, and complex session expiry detection. Let Supabase handle session management.
 
-## 2. Simplify auth state management [pending]
+## 2. Simplify auth state management [done]
 ### Dependencies: None
 ### Description: Simplify the auth state management to basic user and session tracking
 ### Details:
 Simplify state to just user, session, and loading. Remove sessionExpired state and complex state management.
 
-## 3. Simplify auth methods [pending]
+## 3. Simplify auth methods [done]
 ### Dependencies: None
 ### Description: Simplify the auth methods to use the new auth utilities directly
 ### Details:
 Update signIn, signUp, signOut, signInWithGoogle, resetPassword, and updatePassword methods to use the simplified auth utilities.
 
-## 4. Simplify auth state change handling [pending]
+## 4. Simplify auth state change handling [done]
 ### Dependencies: None
 ### Description: Simplify the auth state change listener
 ### Details:

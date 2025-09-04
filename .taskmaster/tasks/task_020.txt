@@ -1,0 +1,31 @@
+# Task ID: 20
+# Title: Implement Community Prompt Sharing
+# Status: pending
+# Dependencies: 19
+# Priority: low
+# Description: Implement community prompt sharing with moderation and rating system
+# Details:
+Create a community sharing system with the following components:
+
+1. CommunityFeed component with infinite scroll
+2. PublishModal component for sharing prompts
+3. PromptDetail component for community prompts
+4. Author profile pages
+5. Rating and review system
+
+Technical Requirements:
+- Content moderation system
+- Popularity scoring algorithm
+- Search with relevance ranking
+- Rate limiting to prevent spam
+- Community guidelines enforcement
+
+Community Features:
+- Pro users can publish prompts
+- All users can browse and save
+- Categories and trending sections
+- Author attribution and profiles
+- Report inappropriate content
+
+# Test Strategy:
+

@@ -1,6 +1,6 @@
 # Task ID: 7
 # Title: Refactor Middleware (middleware.ts)
-# Status: pending
+# Status: done
 # Dependencies: 6
 # Priority: medium
 # Description: Simplify the middleware to streamline route protection and session validation
@@ -11,19 +11,19 @@ Rewrite the middleware to simplify route protection logic, streamline session va
 Test route protection for both authenticated and unauthenticated users
 
 # Subtasks:
-## 1. Simplify route protection logic [pending]
+## 1. Simplify route protection logic [done]
 ### Dependencies: None
 ### Description: Simplify the route protection logic to be more straightforward
 ### Details:
 Simplify the logic for determining protected routes and auth routes. Remove redundant checks.
 
-## 2. Streamline session validation [pending]
+## 2. Streamline session validation [done]
 ### Dependencies: None
 ### Description: Simplify session validation to use basic Supabase session checking
 ### Details:
 Simplify session validation to just check for valid session without complex user validation.
 
-## 3. Remove redundant checks [pending]
+## 3. Remove redundant checks [done]
 ### Dependencies: None
 ### Description: Remove redundant authentication checks and simplify the flow
 ### Details:

@@ -1,6 +1,6 @@
 # Task ID: 9
 # Title: Implement Form Validation
-# Status: pending
+# Status: done
 # Dependencies: 8
 # Priority: medium
 # Description: Add proper form validation to the login and signup forms
@@ -11,19 +11,19 @@ Add client-side form validation to ensure proper input validation and provide im
 Test form validation with various inputs and verify validation messages are clear and helpful
 
 # Subtasks:
-## 1. Add email validation [pending]
+## 1. Add email validation [done]
 ### Dependencies: None
 ### Description: Add proper email validation to the login form
 ### Details:
 Add client-side email validation to ensure proper email format and provide immediate feedback.
 
-## 2. Add password validation [pending]
+## 2. Add password validation [done]
 ### Dependencies: None
 ### Description: Add password validation for signup form
 ### Details:
 Add password strength validation and confirmation validation for the signup form.
 
-## 3. Add real-time validation feedback [pending]
+## 3. Add real-time validation feedback [done]
 ### Dependencies: None
 ### Description: Add real-time validation feedback to improve user experience
 ### Details:

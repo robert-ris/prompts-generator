@@ -1,0 +1,30 @@
+# Task ID: 18
+# Title: Implement Subscription Management
+# Status: pending
+# Dependencies: 17
+# Priority: high
+# Description: Implement subscription management with Stripe integration and feature gating
+# Details:
+Create a subscription management system with the following components:
+
+1. UpgradeModal component with plan comparison
+2. BillingPortal component for subscription management
+3. Feature gating middleware
+4. Stripe webhook handler
+5. Subscription status indicators
+
+Technical Requirements:
+- Stripe Checkout integration
+- Webhook handling for subscription events
+- Feature gating based on subscription status
+- Prorated billing for mid-cycle changes
+- Grace period handling for failed payments
+
+Subscription Tiers:
+- Free tier: 20 prompts, 10 AI calls/month
+- Pro tier: Unlimited prompts, 200 AI calls/month
+- Feature entitlements management
+- Upgrade/downgrade flows
+
+# Test Strategy:
+

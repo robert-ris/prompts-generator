@@ -1,0 +1,122 @@
+# CHANGES.md Documentation Rule
+
+## **Mandatory Updates**
+
+- **Every significant change** must be documented in `CHANGES.md`
+- **Update immediately** after making changes, not at the end of a session
+- **Use appropriate categories** and emojis for change classification
+- **Include technical details** for complex changes
+
+## **Change Categories**
+
+### 🐛 **Bug Fixes**
+- Build errors and compilation issues
+- Runtime errors and crashes
+- Import/export problems
+- Type errors and TypeScript issues
+
+### ✨ **Features**
+- New functionality and components
+- API endpoints and integrations
+- Database schema changes
+- New user-facing features
+
+### 🔧 **Technical**
+- Code refactoring and improvements
+- Performance optimizations
+- Architecture changes
+- Dependency updates
+
+### 🎨 **UI/UX**
+- User interface improvements
+- Navigation changes
+- Visual design updates
+- User experience enhancements
+
+### 🔒 **Security**
+- Security fixes and improvements
+- Authentication changes
+- Authorization updates
+- Data protection measures
+
+### 📚 **Documentation**
+- Code documentation updates
+- README changes
+- API documentation
+- User guides
+
+### 🧪 **Testing**
+- Test additions and improvements
+- Test framework changes
+- Coverage improvements
+- Testing infrastructure
+
+## **Documentation Format**
+
+### **For Bug Fixes:**
+```markdown
+**Component/File Name**
+- Fixed specific issue description
+- Technical details of the fix
+- Impact on user experience
+```
+
+### **For Features:**
+```markdown
+**Feature Name**
+- Description of new functionality
+- Technical implementation details
+- User-facing benefits
+- Dependencies and requirements
+```
+
+### **For Technical Changes:**
+```markdown
+**Technical Area**
+- Description of technical improvement
+- Performance impact
+- Code quality improvements
+- Migration notes if applicable
+```
+
+## **Update Process**
+
+1. **Immediate Update**: Update `CHANGES.md` right after making changes
+2. **Categorize**: Use appropriate category and emoji
+3. **Detail**: Include enough detail for future reference
+4. **Review**: Ensure changes are accurately documented
+5. **Commit**: Include CHANGES.md updates in the same commit
+
+## **Examples**
+
+### **Good Documentation:**
+```markdown
+**Supabase Client Import Issues**
+- Fixed `createClient` import errors in `useUserQuota` and `usePromptLibrary` hooks
+- Replaced `createClient()` calls with imported `supabase` instance
+- Updated all Supabase client usage to use singleton pattern
+```
+
+### **Poor Documentation:**
+```markdown
+- Fixed some import issues
+```
+
+## **Enforcement**
+
+- **Always check** if changes need documentation
+- **Update immediately** after making changes
+- **Include in commits** with the actual code changes
+- **Review regularly** to ensure completeness
+
+## **Benefits**
+
+- **Historical record** of all project changes
+- **Debugging aid** for future issues
+- **Onboarding help** for new developers
+- **Release notes** preparation
+- **Project progress** tracking
+description:
+globs:
+alwaysApply: true
+---
