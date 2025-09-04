@@ -10,9 +10,11 @@ import {Footer} from '@/components/shared/footer';
 import {Sparkles, Zap, Library, Users, ArrowRight, Star} from 'lucide-react';
 import {useAuth} from '@/lib/auth/AuthProvider';
 import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 
 export default function Home() {
   const {user} = useAuth();
+  const router = useRouter();
 
   console.log('process.env.NEXT_PUBLIC_APP_URL', process.env.NEXT_PUBLIC_SUPABASE_URL);
 
@@ -93,7 +95,11 @@ export default function Home() {
                   placeholder="Enter your prompt template..."
                   className="font-mono text-sm"
                 />
-                <Button variant="gradient" className="w-full group">
+                <Button
+                  variant="gradient"
+                  className="w-full group"
+                  onClick={() => router.push('/dashboard/builder')}
+                >
                   Start Building
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -141,7 +147,11 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <Button variant="secondary" className="w-full justify-start">
+                <Button
+                  variant="secondary"
+                  className="w-full justify-start"
+                  onClick={() => router.push('/dashboard/library')}
+                >
                   <Library className="w-4 h-4 mr-2" />
                   View Library
                 </Button>

@@ -1,67 +1,544 @@
-## Website Inspirations
+# AI Prompt Builder - Design Rules
 
-### 1. Stripe (stripe.com)
+## 🎨 Design System Foundation
 
-**What we like:**
+### **Color Palette**
 
-- Clean, modern design with subtle gradients
-- Card-based layout for features
-- Professional typography
-- Smooth animations and transitions
-- Dark/light mode support
+- **Primary**: Blue-based palette for trust and intelligence
+- **Secondary**: Neutral grays for content and UI elements
+- **Accent**: Green for success states, red for errors, yellow for warnings
+- **Background**: Light gray (#f8fafc) for light mode, dark gray (#0f172a) for dark mode
 
-**Elements to incorporate:**
+### **Typography**
 
-- Hero section with gradient background
-- Feature cards with icons
-- Pricing table design
-- Navigation bar style
+- **Headings**: Inter font family for modern, clean appearance
+- **Body**: System font stack for optimal readability
+- **Code**: Monospace font for technical content
+- **Font Sizes**: Use Tailwind's scale (text-sm, text-base, text-lg, etc.)
 
-### 2. Linear (linear.app)
+### **Spacing System**
 
-**What we like:**
+- **Consistent 4px base unit** throughout the application
+- **Use Tailwind spacing scale**: p-4, m-6, gap-8, etc.
+- **Component spacing**: 16px (p-4) for most components, 24px (p-6) for sections
 
-- Dark theme by default
-- Minimal, focused interface
-- Clean typography
-- Subtle hover effects
-- Sidebar navigation
+### **Border Radius**
 
-**Elements to incorporate:**
+- **Small**: 4px (rounded) for buttons and small elements
+- **Medium**: 8px (rounded-lg) for cards and containers
+- **Large**: 12px (rounded-xl) for modals and major sections
 
-- Dashboard layout
-- Project management interface
-- Issue tracking design
-- Settings page layout
+---
 
-### 3. Notion (notion.so)
+## 🧩 Component Architecture Rules
 
-**What we like:**
+### **Component Structure**
 
-- Clean, distraction-free interface
-- Flexible layout system
-- Good use of whitespace
-- Consistent component design
+```typescript
+// ✅ DO: Follow this structure for all components
+interface ComponentProps {
+  // Required props first
+  title: string;
+  // Optional props with defaults
+  variant?: 'default' | 'outline';
+  // Event handlers
+  onSubmit?: (data: FormData) => void;
+  // Children for composition
+  children?: React.ReactNode;
+}
 
-**Elements to incorporate:**
+export function ComponentName({
+  title,
+  variant = 'default',
+  onSubmit,
+  children
+}: ComponentProps) {
+  // 1. Hooks and state
+  const [state, setState] = useState();
 
-- Document editor interface
-- Sidebar navigation
-- Block-based content
-- Settings and preferences
+  // 2. Event handlers
+  const handleSubmit = useCallback(() => {
+    // Implementation
+  }, []);
 
-### 4. Discord (discord.com)
+  // 3. Render
+  return (
+    <div className="component-base-styles">
+      {/* Component content */}
+    </div>
+  );
+}
+```
 
-**What we like:**
+### **Component Naming**
 
-- Dark theme
-- Server/channel navigation
-- Chat interface design
-- User avatars and status
+- **PascalCase** for component names: `PromptBuilder`, `AuthProvider`
+- **camelCase** for props and variables: `isLoading`, `handleSubmit`
+- **kebab-case** for CSS classes\*\*: `prompt-builder`, `auth-form`
 
-**Elements to incorporate:**
+### **File Organization**
 
-- Community features
-- Chat interface
-- User management
-- Server organization
+```
+components/
+├── ui/                    # Reusable UI components
+│   ├── button.tsx
+│   ├── input.tsx
+│   └── index.ts          # Export all UI components
+├── auth/                  # Feature-specific components
+│   ├── LoginForm.tsx
+│   └── AuthProvider.tsx
+└── shared/               # Cross-feature components
+    ├── Navigation.tsx
+    └── Footer.tsx
+```
+
+---
+
+## 🎯 UI Component Guidelines
+
+### **Button Components**
+
+```typescript
+// ✅ DO: Use consistent button variants
+<Button variant="default" size="md">
+  Primary Action
+</Button>
+
+<Button variant="outline" size="sm">
+  Secondary Action
+</Button>
+
+<Button variant="ghost" size="lg" disabled>
+  Disabled Action
+</Button>
+```
+
+### **Form Components**
+
+```typescript
+// ✅ DO: Consistent form structure
+<form onSubmit={handleSubmit} className="space-y-4">
+  <div className="space-y-2">
+    <Label htmlFor="email">Email</Label>
+    <Input
+      id="email"
+      type="email"
+      placeholder="Enter your email"
+      required
+      error={errors.email}
+    />
+    {errors.email && (
+      <p className="text-sm text-red-600">{errors.email}</p>
+    )}
+  </div>
+
+  <Button type="submit" disabled={isLoading}>
+    {isLoading ? "Submitting..." : "Submit"}
+  </Button>
+</form>
+```
+
+### **Card Components**
+
+```typescript
+// ✅ DO: Use consistent card structure
+<Card className="p-6">
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Optional description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    {/* Card content */}
+  </CardContent>
+  <CardFooter className="flex justify-between">
+    <Button variant="outline">Cancel</Button>
+    <Button>Confirm</Button>
+  </CardFooter>
+</Card>
+```
+
+---
+
+## 📱 Responsive Design Rules
+
+### **Breakpoint Strategy**
+
+- **Mobile-first approach**: Design for mobile, enhance for larger screens
+- **Breakpoints**: sm (640px), md (768px), lg (1024px), xl (1280px)
+- **Container max-widths**: Use Tailwind's container class with max-widths
+
+### **Responsive Patterns**
+
+```typescript
+// ✅ DO: Mobile-first responsive design
+<div className="
+  grid
+  grid-cols-1
+  md:grid-cols-2
+  lg:grid-cols-3
+  gap-4
+  md:gap-6
+  lg:gap-8
+">
+  {/* Grid items */}
+</div>
+
+// ✅ DO: Responsive text sizing
+<h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+  Responsive Heading
+</h1>
+
+// ✅ DO: Responsive spacing
+<div className="p-4 md:p-6 lg:p-8">
+  {/* Content with responsive padding */}
+</div>
+```
+
+### **Mobile Considerations**
+
+- **Touch targets**: Minimum 44px height for interactive elements
+- **Spacing**: Extra padding on mobile for easier touch interaction
+- **Navigation**: Collapsible navigation for mobile
+- **Forms**: Full-width inputs on mobile, optimized layouts
+
+---
+
+## 🎭 State Management Rules
+
+### **Loading States**
+
+```typescript
+// ✅ DO: Consistent loading patterns
+{isLoading ? (
+  <div className="flex items-center justify-center p-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+    <span className="ml-2 text-gray-600">Loading...</span>
+  </div>
+) : (
+  <div className="content">
+    {/* Actual content */}
+  </div>
+)}
+```
+
+### **Error States**
+
+```typescript
+// ✅ DO: User-friendly error handling
+{error ? (
+  <div className="rounded-lg bg-red-50 border border-red-200 p-4">
+    <div className="flex">
+      <div className="flex-shrink-0">
+        <ExclamationTriangleIcon className="h-5 w-5 text-red-400" />
+      </div>
+      <div className="ml-3">
+        <h3 className="text-sm font-medium text-red-800">
+          Error occurred
+        </h3>
+        <p className="mt-1 text-sm text-red-700">{error.message}</p>
+      </div>
+    </div>
+  </div>
+) : null}
+```
+
+### **Empty States**
+
+```typescript
+// ✅ DO: Helpful empty states
+{items.length === 0 ? (
+  <div className="text-center py-12">
+    <div className="mx-auto h-12 w-12 text-gray-400">
+      <FolderIcon className="h-12 w-12" />
+    </div>
+    <h3 className="mt-2 text-sm font-medium text-gray-900">
+      No items found
+    </h3>
+    <p className="mt-1 text-sm text-gray-500">
+      Get started by creating your first item.
+    </p>
+    <div className="mt-6">
+      <Button onClick={handleCreate}>
+        Create Item
+      </Button>
+    </div>
+  </div>
+) : (
+  <div className="items-list">
+    {/* Items */}
+  </div>
+)}
+```
+
+---
+
+## 🔄 Animation and Interaction Rules
+
+### **Micro-interactions**
+
+- **Hover effects**: Subtle color changes and shadows
+- **Focus states**: Clear visual feedback for accessibility
+- **Transitions**: Smooth 150ms transitions for state changes
+- **Loading animations**: Spinner or skeleton loading
+
+### **Animation Guidelines**
+
+```css
+/* ✅ DO: Use consistent transition timing */
+.transition-base {
+  transition: all 150ms ease-in-out;
+}
+
+.transition-fast {
+  transition: all 100ms ease-in-out;
+}
+
+.transition-slow {
+  transition: all 300ms ease-in-out;
+}
+```
+
+### **Interaction Feedback**
+
+- **Button clicks**: Immediate visual feedback
+- **Form submissions**: Loading states with disabled inputs
+- **Success actions**: Toast notifications or inline success messages
+- **Error actions**: Clear error messages with actionable guidance
+
+---
+
+## ♿ Accessibility Rules
+
+### **Semantic HTML**
+
+```typescript
+// ✅ DO: Use semantic HTML elements
+<main>
+  <section aria-labelledby="section-title">
+    <h2 id="section-title">Section Title</h2>
+    {/* Content */}
+  </section>
+</main>
+
+// ✅ DO: Proper form labeling
+<label htmlFor="email-input">Email Address</label>
+<input id="email-input" type="email" aria-describedby="email-help" />
+<p id="email-help">We'll never share your email.</p>
+```
+
+### **Keyboard Navigation**
+
+- **Tab order**: Logical tab sequence through interactive elements
+- **Focus indicators**: Visible focus rings for all interactive elements
+- **Skip links**: Skip to main content links for screen readers
+- **Keyboard shortcuts**: Common shortcuts (Ctrl+S, Esc, etc.)
+
+### **Screen Reader Support**
+
+- **Alt text**: Descriptive alt text for all images
+- **ARIA labels**: Proper ARIA attributes for complex interactions
+- **Live regions**: Announce dynamic content changes
+- **Landmarks**: Proper use of main, nav, section, etc.
+
+---
+
+## 🎨 Visual Design Rules
+
+### **Consistency**
+
+- **Color usage**: Use design system colors consistently
+- **Typography**: Maintain consistent font sizes and weights
+- **Spacing**: Use consistent spacing throughout the application
+- **Icons**: Use Lucide React icons consistently
+
+### **Visual Hierarchy**
+
+```typescript
+// ✅ DO: Clear visual hierarchy
+<div className="space-y-6">
+  <h1 className="text-3xl font-bold text-gray-900">
+    Main Heading
+  </h1>
+
+  <h2 className="text-xl font-semibold text-gray-800">
+    Section Heading
+  </h2>
+
+  <p className="text-base text-gray-600">
+    Body text with proper contrast
+  </p>
+
+  <small className="text-sm text-gray-500">
+    Secondary information
+  </small>
+</div>
+```
+
+### **Contrast and Readability**
+
+- **Text contrast**: Minimum 4.5:1 ratio for normal text
+- **Large text**: Minimum 3:1 ratio for large text (18px+)
+- **Interactive elements**: Clear visual distinction
+- **Error states**: High contrast for important information
+
+---
+
+## 🔧 Technical Implementation Rules
+
+### **Performance**
+
+- **Code splitting**: Lazy load components when possible
+- **Image optimization**: Use Next.js Image component
+- **Bundle size**: Keep components lightweight
+- **Re-renders**: Minimize unnecessary re-renders with proper memoization
+
+### **TypeScript**
+
+```typescript
+// ✅ DO: Strict TypeScript usage
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+  createdAt: Date;
+}
+
+// ✅ DO: Proper prop typing
+interface ButtonProps {
+  children: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  onClick?: () => void;
+}
+```
+
+### **Error Boundaries**
+
+```typescript
+// ✅ DO: Implement error boundaries
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorFallback />;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+---
+
+## 📋 Component Checklist
+
+Before creating any new component, ensure:
+
+### **Design**
+
+- [ ] Follows design system color palette
+- [ ] Uses consistent spacing and typography
+- [ ] Implements responsive design
+- [ ] Includes proper loading/error/empty states
+- [ ] Has clear visual hierarchy
+
+### **Accessibility**
+
+- [ ] Uses semantic HTML elements
+- [ ] Includes proper ARIA attributes
+- [ ] Supports keyboard navigation
+- [ ] Has sufficient color contrast
+- [ ] Includes screen reader support
+
+### **Technical**
+
+- [ ] Proper TypeScript typing
+- [ ] Follows component structure pattern
+- [ ] Implements error handling
+- [ ] Optimized for performance
+- [ ] Includes proper documentation
+
+### **User Experience**
+
+- [ ] Clear and intuitive interface
+- [ ] Consistent with existing patterns
+- [ ] Provides helpful feedback
+- [ ] Handles edge cases gracefully
+- [ ] Supports user workflows
+
+---
+
+## 🚫 Anti-Patterns to Avoid
+
+### **Design Anti-Patterns**
+
+```typescript
+// ❌ DON'T: Inconsistent spacing
+<div className="p-4">
+  <h1 className="mb-8">Title</h1>
+  <p className="mt-2">Content</p>
+</div>
+
+// ❌ DON'T: Hard-coded colors
+<div className="bg-blue-500 text-white">
+  {/* Use design system colors instead */}
+</div>
+
+// ❌ DON'T: Non-semantic HTML
+<div onClick={handleClick}>
+  Click me
+</div>
+```
+
+### **Technical Anti-Patterns**
+
+```typescript
+// ❌ DON'T: Any typing
+const Component = (props: any) => {
+  return <div>{props.title}</div>;
+};
+
+// ❌ DON'T: Inline styles
+<div style={{ margin: '10px', color: 'red' }}>
+  Content
+</div>
+
+// ❌ DON'T: Missing error handling
+const fetchData = async () => {
+  const data = await api.getData();
+  setData(data); // No error handling
+};
+```
+
+---
+
+## 📚 Resources and References
+
+### **Design System**
+
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [shadcn/ui Components](https://ui.shadcn.com/)
+- [Lucide React Icons](https://lucide.dev/)
+
+### **Accessibility**
+
+- [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/WCAG21/quickref/)
+- [ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)
+
+### **Performance**
+
+- [Next.js Performance](https://nextjs.org/docs/advanced-features/measuring-performance)
+- [React Performance](https://react.dev/learn/render-and-commit)
+
+---
+
+_These design rules ensure consistency, accessibility, and maintainability across the AI Prompt Builder frontend. Follow these guidelines for all new components and features._

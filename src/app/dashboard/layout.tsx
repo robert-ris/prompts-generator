@@ -1,5 +1,6 @@
 import {redirect} from 'next/navigation';
 import {createClient} from '@/lib/supabase/server';
+import {DashboardNav} from '@/components/shared/DashboardNav';
 
 export default async function DashboardLayout({
   children,
@@ -15,7 +16,14 @@ export default async function DashboardLayout({
     redirect('/auth/login?redirectTo=/dashboard');
   }
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <DashboardNav />
+      <main className="pt-16">
+        {children}
+      </main>
+    </div>
+  );
 }
 
 

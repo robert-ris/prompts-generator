@@ -12,3 +12,4 @@ export { Input, inputVariants } from './input';
 export { Badge, badgeVariants } from './badge';
 export { Separator, separatorVariants } from './separator';
 export { LoadingSpinner, LoadingButton, LoadingOverlay } from './loading';
+export { Progress } from './progress';

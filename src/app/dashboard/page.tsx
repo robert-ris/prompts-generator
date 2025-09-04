@@ -118,12 +118,18 @@ export default function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button className="w-full h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium transition-all duration-200 hover:shadow-lg hover:scale-[1.02]">
+                  <Button
+                    onClick={() => router.push('/dashboard/builder')}
+                    className="w-full h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     Create New Prompt
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button className="w-full h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:shadow-md">
+                  <Button
+                    onClick={() => router.push('/dashboard/library')}
+                    className="w-full h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:shadow-md"
+                  >
                     <Library className="w-4 h-4 mr-2" />
                     View My Library
                   </Button>
@@ -179,7 +185,10 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="group p-6 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 hover:shadow-lg">
+                  <div
+                    onClick={() => router.push('/dashboard/builder')}
+                    className="group p-6 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 hover:shadow-lg cursor-pointer"
+                  >
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                         <Plus className="w-6 h-6 text-white" />
@@ -227,7 +236,10 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  <div className="group p-6 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 hover:shadow-lg">
+                  <div
+                    onClick={() => router.push('/dashboard/library')}
+                    className="group p-6 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 hover:shadow-lg cursor-pointer"
+                  >
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-orange-600 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
                         <FolderOpen className="w-6 h-6 text-white" />
