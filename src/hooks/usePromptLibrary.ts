@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { PromptTemplate } from '@/types';
+import { PromptTemplate as DatabasePromptTemplate } from '@/types/database';
 
 export function usePromptLibrary() {
-  const [prompts, setPrompts] = useState<PromptTemplate[] | null>(null);
+  const [prompts, setPrompts] = useState<DatabasePromptTemplate[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

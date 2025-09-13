@@ -4,9 +4,11 @@ import { getUser } from '@/lib/supabase/server';
 
 interface SavePromptRequest {
   title: string;
+  description?: string;
   templateContent: string;
   category: string;
-  variables: Record<string, string>;
+  coreSettings: Record<string, any>;
+  advancedSettings: Record<string, any>;
   tags: string[];
   isPublic?: boolean;
 }
@@ -23,9 +25,11 @@ export async function POST(request: NextRequest) {
     const body: SavePromptRequest = await request.json();
     const {
       title,
+      description,
       templateContent,
       category,
-      variables,
+      coreSettings,
+      advancedSettings,
       tags,
       isPublic = false,
     } = body;
@@ -63,6 +67,24 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id)
       .single();
 
+    // If profile doesn't exist, create it
+    if (!userProfile.data) {
+      console.log('Profile not found, creating new profile for user:', user.id);
+      const { error: profileError } = await supabase.from('profiles').insert({
+        id: user.id,
+        email: user.email || '',
+        subscription_tier: 'free',
+      });
+
+      if (profileError) {
+        console.error('Error creating profile:', profileError);
+        return NextResponse.json(
+          { error: 'Failed to create user profile' },
+          { status: 500 }
+        );
+      }
+    }
+
     const isFreeUser = userProfile?.data?.subscription_tier === 'free';
     const currentCount = promptCount?.length || 0;
     const maxPrompts = isFreeUser ? 20 : -1; // -1 means unlimited
@@ -83,9 +105,12 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id: user.id,
         title: title.trim(),
+        description: description?.trim() || '',
+        content: templateContent.trim(),
         template_content: templateContent.trim(),
         category: category || 'custom',
-        variables,
+        core_settings: coreSettings,
+        advanced_settings: advancedSettings,
         tags: tags || [],
         is_public: isPublic,
         metadata: {
@@ -129,8 +154,17 @@ export async function PUT(request: NextRequest) {
 
     // Parse request body
     const body = await request.json();
-    const { id, title, templateContent, category, variables, tags, isPublic } =
-      body;
+    const {
+      id,
+      title,
+      description,
+      templateContent,
+      category,
+      coreSettings,
+      advancedSettings,
+      tags,
+      isPublic,
+    } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -156,9 +190,12 @@ export async function PUT(request: NextRequest) {
       .from('prompt_templates')
       .update({
         title: title.trim(),
+        description: description?.trim() || '',
+        content: templateContent.trim(),
         template_content: templateContent.trim(),
         category: category || 'custom',
-        variables,
+        core_settings: coreSettings,
+        advanced_settings: advancedSettings,
         tags: tags || [],
         is_public: isPublic,
         updated_at: new Date().toISOString(),

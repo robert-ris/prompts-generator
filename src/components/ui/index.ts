@@ -9,6 +9,7 @@ export {
   cardVariants,
 } from './card';
 export { Input, inputVariants } from './input';
+export { Textarea, textareaVariants } from './textarea';
 export { Badge, badgeVariants } from './badge';
 export { Separator, separatorVariants } from './separator';
 export { LoadingSpinner, LoadingButton, LoadingOverlay } from './loading';

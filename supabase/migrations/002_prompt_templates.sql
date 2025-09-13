@@ -7,7 +7,8 @@ CREATE TABLE prompt_templates (
   description TEXT,
   category TEXT,
   tags TEXT[],
-  variables JSONB, -- Store template variables like {{role}}, {{topic}}, etc.
+  core_settings JSONB, -- Store core prompt settings like role, niche, task type, etc.
+  advanced_settings JSONB, -- Store advanced prompt settings like perspective, creativity level, etc.
   is_public BOOLEAN DEFAULT false,
   is_featured BOOLEAN DEFAULT false,
   usage_count INTEGER DEFAULT 0,

@@ -1,9 +1,21 @@
-export interface TemplateVariables {
+export interface CoreSettings {
   role?: string;
-  topic?: string;
+  niche?: string;
+  taskType?: string;
+  outputFormat?: string;
   tone?: string;
-  output_type?: string;
-  [key: string]: string | undefined;
+  targetAudience?: string;
+  lengthPreference?: string;
+  constraints?: string;
+}
+
+export interface AdvancedSettings {
+  perspective?: string;
+  creativityLevel?: string;
+  language?: string;
+  additionalContext?: string;
+  formattingAddons?: string[];
+  callToAction?: string;
 }
 
 export interface PlanFeatures {
@@ -89,10 +101,13 @@ export interface Database {
           user_id: string;
           title: string;
           content: string;
+          template_content: string | null;
           description: string | null;
           category: string | null;
           tags: string[] | null;
-          variables: TemplateVariables | null;
+          core_settings: CoreSettings | null;
+          advanced_settings: AdvancedSettings | null;
+          metadata: Record<string, unknown> | null;
           is_public: boolean;
           is_featured: boolean;
           usage_count: number;
@@ -106,10 +121,12 @@ export interface Database {
           user_id: string;
           title: string;
           content: string;
+          template_content?: string | null;
           description?: string | null;
           category?: string | null;
           tags?: string[] | null;
           variables?: TemplateVariables | null;
+          metadata?: Record<string, unknown> | null;
           is_public?: boolean;
           is_featured?: boolean;
           usage_count?: number;
@@ -123,10 +140,12 @@ export interface Database {
           user_id?: string;
           title?: string;
           content?: string;
+          template_content?: string | null;
           description?: string | null;
           category?: string | null;
           tags?: string[] | null;
           variables?: TemplateVariables | null;
+          metadata?: Record<string, unknown> | null;
           is_public?: boolean;
           is_featured?: boolean;
           usage_count?: number;
@@ -454,7 +473,8 @@ export interface Database {
           description: string | null;
           category: string | null;
           tags: string[] | null;
-          variables: TemplateVariables | null;
+          core_settings: CoreSettings | null;
+          advanced_settings: AdvancedSettings | null;
           is_featured: boolean;
           is_approved: boolean;
           approval_status: 'pending' | 'approved' | 'rejected';

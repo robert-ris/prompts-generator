@@ -1,5 +1,5 @@
 import { BaseLLMProvider } from '../base-provider';
-import { LLMRequest, LLMResponse, TokenUsage, ProviderConfig } from '../types';
+import { LLMRequest, LLMResponse, ProviderConfig } from '../types';
 
 export class OpenAIProvider extends BaseLLMProvider {
   constructor(config: ProviderConfig) {

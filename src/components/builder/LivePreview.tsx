@@ -79,8 +79,8 @@ export function LivePreview({processedTemplate, variables}: LivePreviewProps) {
                 <div
                   key={key}
                   className={`flex items-center gap-2 p-2 rounded ${value.trim()
-                      ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
-                      : 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                    ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+                    : 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
                     }`}
                 >
                   <div

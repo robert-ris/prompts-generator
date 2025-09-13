@@ -155,3 +155,4 @@ export function estimateTokenCount(text: string): number {
   // Rough estimate: 1 token ≈ 4 characters for English text
   return Math.ceil(text.length / 4);
 }
+

@@ -131,3 +131,4 @@ export function AIUsageDisplay({className}: AIUsageDisplayProps) {
     </Card>
   );
 }
+

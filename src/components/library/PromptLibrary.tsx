@@ -18,7 +18,7 @@ import {
   Tag,
   MoreHorizontal
 } from 'lucide-react';
-import {PromptTemplate} from '@/types';
+import {PromptTemplate as DatabasePromptTemplate} from '@/types/database';
 import {usePromptLibrary} from '@/hooks/usePromptLibrary';
 
 type SortOption = 'newest' | 'oldest' | 'name' | 'usage';
@@ -49,8 +49,8 @@ export function PromptLibrary() {
     const filtered = prompts.filter(prompt => {
       // Search filter
       const matchesSearch = prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prompt.templateContent.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prompt.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        (prompt.template_content || prompt.content).toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (prompt.tags || []).some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
       // Category filter
       const matchesCategory = filterBy === 'all' ||
@@ -65,13 +65,13 @@ export function PromptLibrary() {
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'newest':
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         case 'oldest':
-          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         case 'name':
           return a.title.localeCompare(b.title);
         case 'usage':
-          return (b.usageCount || 0) - (a.usageCount || 0);
+          return (b.usage_count || 0) - (a.usage_count || 0);
         default:
           return 0;
       }
@@ -116,6 +116,10 @@ export function PromptLibrary() {
 
   const handleCreateNewPrompt = useCallback(() => {
     router.push('/dashboard/builder');
+  }, [router]);
+
+  const handleOpenPrompt = useCallback((promptId: string) => {
+    router.push(`/dashboard/prompts/${promptId}`);
   }, [router]);
 
   if (loading) {
@@ -290,6 +294,7 @@ export function PromptLibrary() {
               prompt={prompt}
               isSelected={selectedPrompts.includes(prompt.id)}
               onSelect={handleSelectPrompt}
+              onOpen={handleOpenPrompt}
               onDelete={deletePrompt}
               onDuplicate={duplicatePrompt}
               onToggleFavorite={toggleFavorite}
@@ -310,19 +315,21 @@ export function PromptLibrary() {
 }
 
 interface PromptCardProps {
-  prompt: PromptTemplate;
+  prompt: DatabasePromptTemplate;
   isSelected: boolean;
   onSelect: (id: string) => void;
+  onOpen: (id: string) => void;
   onDelete: (id: string) => Promise<void>;
   onDuplicate: (id: string) => Promise<void>;
   onToggleFavorite: (id: string) => Promise<void>;
-  onCopy: (prompt: PromptTemplate) => Promise<void>;
+  onCopy: (prompt: DatabasePromptTemplate) => Promise<void>;
 }
 
 function PromptCard({
   prompt,
   isSelected,
   onSelect,
+  onOpen,
   onDelete,
   onDuplicate,
   onToggleFavorite,
@@ -341,18 +348,27 @@ function PromptCard({
   };
 
   return (
-    <Card className={`relative transition-all hover:shadow-lg ${isSelected ? 'ring-2 ring-blue-500' : ''}`}>
+    <Card
+      className={`relative transition-all hover:shadow-lg hover:scale-[1.02] cursor-pointer ${isSelected ? 'ring-2 ring-blue-500' : ''}`}
+      onClick={() => onOpen(prompt.id)}
+    >
       {/* Selection Checkbox */}
-      <div className="absolute top-3 left-3 z-10">
+      <div
+        className="absolute top-3 left-3 z-10 p-1 -m-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        onClick={(e) => e.stopPropagation()}
+      >
         <input
           type="checkbox"
           checked={isSelected}
-          onChange={() => onSelect(prompt.id)}
-          className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+          onChange={(e) => {
+            e.stopPropagation();
+            onSelect(prompt.id);
+          }}
+          className="h-4 w-4 text-blue-600 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
         />
       </div>
 
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3 pl-10">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
             <CardTitle className="text-lg font-semibold truncate">
@@ -373,7 +389,10 @@ function PromptCard({
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setShowActions(!showActions)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowActions(!showActions);
+              }}
               className="h-8 w-8 p-0"
             >
               <MoreHorizontal className="h-4 w-4" />
@@ -382,6 +401,16 @@ function PromptCard({
             {showActions && (
               <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-20">
                 <div className="py-1">
+                  <button
+                    onClick={() => {
+                      onOpen(prompt.id);
+                      setShowActions(false);
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                  >
+                    <Edit className="h-4 w-4" />
+                    Open/Edit
+                  </button>
                   <button
                     onClick={() => {
                       onToggleFavorite(prompt.id);
@@ -433,22 +462,22 @@ function PromptCard({
         {/* Prompt Preview */}
         <div className="mb-4">
           <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
-            {prompt.templateContent}
+            {prompt.template_content || prompt.content}
           </p>
         </div>
 
         {/* Tags */}
-        {prompt.tags.length > 0 && (
+        {(prompt.tags || []).length > 0 && (
           <div className="mb-4">
             <div className="flex flex-wrap gap-1">
-              {prompt.tags.slice(0, 3).map((tag, index) => (
+              {(prompt.tags || []).slice(0, 3).map((tag, index) => (
                 <Badge key={index} variant="secondary" className="text-xs">
                   {tag}
                 </Badge>
               ))}
-              {prompt.tags.length > 3 && (
+              {(prompt.tags || []).length > 3 && (
                 <Badge variant="secondary" className="text-xs">
-                  +{prompt.tags.length - 3} more
+                  +{(prompt.tags || []).length - 3} more
                 </Badge>
               )}
             </div>
@@ -460,9 +489,9 @@ function PromptCard({
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3" />
-              {new Date(prompt.createdAt).toLocaleDateString()}
+              {new Date(prompt.created_at).toLocaleDateString()}
             </span>
-            <span>Used {prompt.usageCount || 0} times</span>
+            <span>Used {prompt.usage_count || 0} times</span>
           </div>
         </div>
       </CardContent>

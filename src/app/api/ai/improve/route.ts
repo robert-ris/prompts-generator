@@ -6,7 +6,6 @@ import { config } from '@/lib/config';
 
 interface AIImproveRequest {
   prompt: string;
-  mode: 'tighten' | 'expand';
 }
 
 export async function POST(request: NextRequest) {
@@ -21,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body: AIImproveRequest = await request.json();
-    const { prompt, mode } = body;
+    const { prompt } = body;
 
     // Input validation and sanitization
     if (!prompt?.trim()) {
@@ -29,10 +28,6 @@ export async function POST(request: NextRequest) {
         { error: 'Prompt is required' },
         { status: 400 }
       );
-    }
-
-    if (!['tighten', 'expand'].includes(mode)) {
-      return NextResponse.json({ error: 'Invalid mode' }, { status: 400 });
     }
 
     // Sanitize input
@@ -76,7 +71,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Use the new LLM abstraction to improve the prompt
-    const response = await improvePrompt(sanitizedPrompt, mode, {
+    const response = await improvePrompt(sanitizedPrompt, {
       useFallback: true, // Enable fallback to other providers
       maxTokens: 1000,
       temperature: 0.7,
@@ -94,7 +89,7 @@ export async function POST(request: NextRequest) {
     if (!config.skipAIRequest) {
       const { error: logError } = await supabase.from('ai_usage_logs').insert({
         user_id: user.id,
-        operation_type: mode,
+        operation_type: 'improve',
         input_tokens: response.usage.inputTokens,
         output_tokens: response.usage.outputTokens,
         cost_cents: response.usage.costCents,

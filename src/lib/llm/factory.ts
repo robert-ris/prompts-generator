@@ -133,7 +133,9 @@ const MOCK_CONFIG: ProviderConfig = {
 
 // LLM Configuration
 export const LLM_CONFIG: LLMConfig = {
-  providers: config.skipAIRequest ? [MOCK_CONFIG] : [OPENAI_CONFIG, ANTHROPIC_CONFIG],
+  providers: config.skipAIRequest
+    ? [MOCK_CONFIG]
+    : [OPENAI_CONFIG, ANTHROPIC_CONFIG],
   defaultProvider: config.skipAIRequest ? 'mock' : 'openai',
   fallbackProvider: config.skipAIRequest ? 'mock' : 'anthropic',
   maxRetries: config.skipAIRequest ? 0 : 3,
@@ -141,7 +143,9 @@ export const LLM_CONFIG: LLMConfig = {
   costOptimization: {
     enabled: !config.skipAIRequest,
     maxCostPerRequest: 50, // $0.50 max per request
-    preferredProviders: config.skipAIRequest ? ['mock'] : ['openai', 'anthropic'],
+    preferredProviders: config.skipAIRequest
+      ? ['mock']
+      : ['openai', 'anthropic'],
   },
   loadBalancing: {
     enabled: !config.skipAIRequest,
@@ -172,7 +176,9 @@ export function createLLMManager(): LLMProviderManager {
   if (config.skipAIRequest) {
     const mockProvider = new MockProvider(MOCK_CONFIG);
     manager.addProvider(mockProvider);
-    console.log('🔧 Mock AI provider enabled - no actual API calls will be made');
+    console.log(
+      '🔧 Mock AI provider enabled - no actual API calls will be made'
+    );
   } else {
     // Add OpenAI provider if configured
     if (OPENAI_CONFIG.enabled) {
@@ -203,7 +209,6 @@ export function createLLMManager(): LLMProviderManager {
 // Utility functions for common operations
 export async function improvePrompt(
   prompt: string,
-  mode: 'tighten' | 'expand',
   options?: {
     maxTokens?: number;
     temperature?: number;
@@ -213,14 +218,17 @@ export async function improvePrompt(
 ) {
   const manager = getLLMManager();
 
-  const systemPrompt =
-    mode === 'tighten'
-      ? `You are an expert at making prompts more concise and focused. Your task is to tighten the given prompt by removing unnecessary words, making it more direct, and ensuring it gets straight to the point while maintaining all essential information. Return only the improved prompt without any explanations.`
-      : `You are an expert at expanding prompts with more detail and context. Your task is to enhance the given prompt by adding relevant details, clarifying instructions, and providing more context to help get better results from AI models. Return only the improved prompt without any explanations.`;
+  const systemPrompt = `You are an expert at improving AI prompts. Your task is to enhance the given prompt by making it more clear, specific, and effective. Focus on:
+- Making instructions clearer and more actionable
+- Adding relevant context where needed
+- Improving structure and flow
+- Ensuring the prompt will generate better results from AI models
+
+Return only the improved prompt without any explanations.`;
 
   const request = {
     systemPrompt,
-    userPrompt: `Please ${mode} this prompt:\n\n"${prompt}"`,
+    userPrompt: `Please improve this prompt:\n\n"${prompt}"`,
     maxTokens: options?.maxTokens || 1000,
     temperature: options?.temperature ?? 0.7,
     model: options?.model,
